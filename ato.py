@@ -11,13 +11,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import random
-import time
 
 API_KEY = "b2d8853363a604425b32d2ee3030d193"
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-driver_path = "/usr/local/bin/geckodriver"  # Update with the correct path to geckodriver
+driver_path = "/usr/local/bin/geckodriver"
 
 service = Service(driver_path)
 
@@ -35,23 +34,16 @@ def load_proxies(file_path):
     return proxies
 
 def get_driver_with_proxy(proxy):
-    # Specify the path to the Firefox profile
-    profile_path = r'C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\y1uqp5mi.default'  # Update with the correct profile path
-    
-    # Set up Firefox options
-    options = Options()
-    options.set_preference('profile', profile_path)
-    options.set_preference("network.proxy.type", 1)
-    options.set_preference("network.proxy.http", proxy.split(":")[0])
-    options.set_preference("network.proxy.http_port", int(proxy.split(":")[1]))
-    options.set_preference("network.proxy.ssl", proxy.split(":")[0])
-    options.set_preference("network.proxy.ssl_port", int(proxy.split(":")[1]))
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("general.useragent.override", user_agent)
+    profile.set_preference("network.proxy.type", 1)
+    profile.set_preference("network.proxy.http", proxy.split(":")[0])
+    profile.set_preference("network.proxy.http_port", int(proxy.split(":")[1]))
+    profile.set_preference("network.proxy.ssl", proxy.split(":")[0])
+    profile.set_preference("network.proxy.ssl_port", int(proxy.split(":")[1]))
+    profile.update_preferences()
 
-    # Specify the path to the geckodriver
-    service = Service(r'C:\WebDriver\bin\geckodriver.exe')  # Update with the correct path to geckodriver
-
-    # Initialize the Firefox driver with the specified options and service
-    driver = webdriver.Firefox(service=service, options=options)
+    driver = webdriver.Firefox(service=service, options=options, firefox_profile=profile)
     return driver
 
 class LoginFailedException(Exception):
