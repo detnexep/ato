@@ -36,7 +36,7 @@ def fetch_and_write(url, file):
         pass
 
 if __name__ == "__main__":
-    file = "root/proxy.txt"
+    file = "proxy.txt"
 
     try:
         # Clear existing file
