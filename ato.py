@@ -145,7 +145,7 @@ def main():
     parser.add_argument("passwords", help="Path to the passwords file")
     args = parser.parse_args()
 
-    proxies = load_proxies("proxies.txt")
+    proxies = load_proxies("proxy.txt")
     if not proxies:
         logging.error("No proxies loaded. Exiting.")
         return
