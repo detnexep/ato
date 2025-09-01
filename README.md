@@ -1,4 +1,6 @@
-bash setuo.sh
+use your own 2captcha API and word list
+
+bash setup.sh
 
 python3 scrape.py
 
